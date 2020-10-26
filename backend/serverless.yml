@@ -3,6 +3,8 @@ service:
 
 plugins:
   - serverless-webpack
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
   - serverless-iam-roles-per-function
 
 provider:
@@ -17,6 +19,19 @@ provider:
     INDEX_NAME: ReviewsIndex
     ATTACHMENTS_S3_BUCKET: book-reviews-app-attachments-eam-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+
+custom:
+
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: Book Review App API            
+        description: Serverless application for creating book reviews
+    models:
+      - name: CreateReviewRequest
+        contentType: application/json
+        schema: ${file(src/models/create-review-request.json)}
 
 functions:
 
@@ -42,6 +57,12 @@ functions:
           method: post
           path: reviews
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create new review
+            description: Create new review item
+            requestModels:
+              'application/json': CreateReviewRequest
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:PutItem
@@ -112,6 +133,15 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
+
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
 
     AttachmentsBucket:
       Type: AWS::S3::Bucket

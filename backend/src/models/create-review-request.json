@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "my-type",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 300
+    },
+    "reviewedAt": {
+      "type": "string",
+      "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+    
+    }
+  },
+  "required": ["title", "reviewedAt"]
+}
