@@ -29,6 +29,7 @@ functions:
       - http:
           method: get
           path: reviews
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:Query
@@ -40,6 +41,7 @@ functions:
       - http:
           method: post
           path: reviews
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:PutItem
@@ -51,6 +53,7 @@ functions:
       - http:
           method: patch
           path: reviews/{reviewId}
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:UpdateItem
@@ -62,6 +65,7 @@ functions:
       - http:
           method: delete
           path: reviews/{reviewId}
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:DeleteItem
@@ -73,6 +77,7 @@ functions:
       - http:
           method: post
           path: reviews/{reviewId}/attachment
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:UpdateItem
