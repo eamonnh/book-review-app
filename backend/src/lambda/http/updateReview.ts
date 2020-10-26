@@ -1,13 +1,33 @@
 import 'source-map-support/register'
-
+import { createLogger } from '../../utils/logger'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
+import { updateReview } from '../../businessLogic/updateReview';
 
-import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
+const logger = createLogger('http')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  //const todoId = event.pathParameters.reviewId
-  const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+  try {
+    
+    //Call BLL
+    await updateReview(event);
 
-  // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
-  return undefined
+    // Return SUCCESS
+    logger.info('Update Review Successful!');
+    return {
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: ''
+    }
+  }
+  catch (e) 
+  {
+    logger.error('Update Review Failed!', { e });
+    return {
+      statusCode: 500,
+      body: e.message
+    }
+  }
 }

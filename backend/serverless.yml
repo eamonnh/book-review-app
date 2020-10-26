@@ -48,6 +48,11 @@ functions:
       - http:
           method: patch
           path: reviews/{reviewId}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}
+
 
   DeleteReview:
     handler: src/lambda/http/deleteReview.handler
