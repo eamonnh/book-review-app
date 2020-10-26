@@ -1,5 +1,5 @@
 service:
-  name: serverless-todo-app
+  name: serverless-book-review-app
 
 plugins:
   - serverless-webpack
@@ -7,56 +7,50 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
 
   stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'us-east-1'}
+  region: ${opt:region, 'eu-west-1'}
 
 functions:
 
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function
-  GetTodos:
-    handler: src/lambda/http/getTodos.handler
+  GetReviews:
+    handler: src/lambda/http/getReviews.handler
     events:
       - http:
           method: get
-          path: todos
-
-  # TODO: Configure this function
-  GetTodos:
-  CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+          path: reviews
+  
+  CreateReview:
+    handler: src/lambda/http/createReview.handler
     events:
       - http:
           method: post
-          path: todos
+          path: reviews
 
-  # TODO: Configure this function
-  UpdateTodo:
-    handler: src/lambda/http/updateTodo.handler
+  UpdateReview:
+    handler: src/lambda/http/updateReview.handler
     events:
       - http:
           method: patch
-          path: todos/{todoId}
+          path: reviews/{reviewId}
 
-  # TODO: Configure this function
-  DeleteTodo:
-    handler: src/lambda/http/deleteTodo.handler
+  DeleteReview:
+    handler: src/lambda/http/deleteReview.handler
     events:
       - http:
           method: delete
-          path: todos/{todoId}
+          path: reviews/{reviewId}
 
-  # TODO: Configure this function
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
+          path: reviews/{reviewId}/attachment
 
 resources:
   Resources:
