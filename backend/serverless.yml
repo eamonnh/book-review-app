@@ -45,7 +45,6 @@ functions:
         Action: dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}
 
-
   UpdateReview:
     handler: src/lambda/http/updateReview.handler
     events:
@@ -57,13 +56,16 @@ functions:
         Action: dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}
 
-
   DeleteReview:
     handler: src/lambda/http/deleteReview.handler
     events:
       - http:
           method: delete
           path: reviews/{reviewId}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
