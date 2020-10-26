@@ -29,6 +29,10 @@ functions:
       - http:
           method: get
           path: reviews
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}/index/${self:provider.environment.INDEX_NAME}
   
   CreateReview:
     handler: src/lambda/http/createReview.handler
