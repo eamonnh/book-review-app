@@ -12,6 +12,12 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-west-1'}
 
+  environment:
+    REVIEWS_TABLE: Reviews-${self:provider.stage}
+    INDEX_NAME: ReviewsIndex
+    ATTACHMENTS_S3_BUCKET: book-reviews-app-attachments-eam-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 300
+
 functions:
 
   Auth:
@@ -54,4 +60,30 @@ functions:
 
 resources:
   Resources:
-    # TODO: Add any necessary AWS resources
+    
+    TodosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: reviewId
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: reviewId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.REVIEWS_TABLE}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEX_NAME}
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
