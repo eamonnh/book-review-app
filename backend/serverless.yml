@@ -67,12 +67,16 @@ functions:
         Action: dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}
 
-  GenerateUploadUrl:
-    handler: src/lambda/http/generateUploadUrl.handler
+  uploadUrl:
+    handler: src/lambda/http/uploadUrl.handler
     events:
       - http:
           method: post
           path: reviews/{reviewId}/attachment
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REVIEWS_TABLE}
 
 resources:
   Resources:
