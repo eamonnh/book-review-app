@@ -11,8 +11,8 @@ export async function updateReview(event: APIGatewayProxyEvent) {
 
   const reviewId = event.pathParameters.reviewId
   const updatedReview: UpdateReviewRequest = JSON.parse(event.body)
-  //const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
-  const userId = 'User1234'
+  const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
+  //const userId = 'User1234'
 
   //Call DLL to update review in database
   logger.info('BLL Updating Review',{reviewId});

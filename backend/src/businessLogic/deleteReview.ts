@@ -8,8 +8,8 @@ const logger = createLogger('http');
 
 export async function deleteReview(event: APIGatewayProxyEvent) {
 
-  //const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
-  const userId = 'User1234';
+  const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
+  //const userId = 'User1234';
   const reviewId = event.pathParameters.reviewId;
 
   //Delete review in database

@@ -7,10 +7,10 @@ import { getReviewsFromDatabase } from '../dataLayer/getReviews';
 
 const logger = createLogger('http');
 
-export async function getReviews() {
+export async function getReviews(event: APIGatewayProxyEvent) {
 
-  //const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
-  const userId = 'User1234';
+  const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
+  //const userId = 'User1234';
 
   //Call DLL to get reviews from database
   logger.info('BLL Get Reviews');

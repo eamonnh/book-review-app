@@ -14,8 +14,8 @@ export async function createReview(event: APIGatewayProxyEvent,
   createReviewRequest: CreateReviewRequest): Promise<ReviewItem> {
 
   const reviewId = uuid.v4();
-  //const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
-  const userId = 'User1234'
+  const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
+  //const userId = 'User1234'
   const createdAt = new Date(Date.now()).toISOString();
 
   //Build the new Review Item object

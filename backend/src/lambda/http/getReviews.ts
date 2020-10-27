@@ -10,7 +10,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   try {
 
     logger.info('Getting reviews')
-    const reviewItems = await getReviews();
+    const reviewItems = await getReviews(event);
 
     // Return SUCCESS
     logger.info('Get reviews successful');

@@ -10,8 +10,8 @@ const logger = createLogger('http');
 
 export async function generateUploadURL(event: APIGatewayProxyEvent): Promise<String> {
 
-  //const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
-  const userId = 'User1234';
+  const userId = parseUserId(event.headers.Authorization.split(' ')[1]);
+  //const userId = 'User1234';
   const reviewId = event.pathParameters.reviewId;
   
 
