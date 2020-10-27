@@ -11,8 +11,27 @@
     "reviewedAt": {
       "type": "string",
       "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
-    
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 500
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 500,
+      "maxLength": 15000
+    },
+    "ISBN": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 13
     }
   },
-  "required": ["title", "reviewedAt"]
+  "required": ["title", "reviewedAt", "score", "summary", "notes", "ISBN"]
 }
