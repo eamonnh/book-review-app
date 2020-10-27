@@ -1,15 +1,15 @@
 import 'source-map-support/register'
 import * as AWS from 'aws-sdk'
-//import * as AWSXRay from 'aws-xray-sdk'
-import { DynamoDB } from 'aws-sdk';
+import * as AWSXRay from 'aws-xray-sdk'
+//import { DynamoDB } from 'aws-sdk';
 import { UpdateReviewRequest } from '../requests/UpdateReviewRequest'
 import { createLogger } from '../utils/logger'
 
 const reviewsTable = process.env.REVIEWS_TABLE
-const docClient = new DynamoDB.DocumentClient();
+//const docClient = new DynamoDB.DocumentClient();
 const logger = createLogger('http')
-//const XAWS = AWSXRay.captureAWS(AWS)
-//const docClient = new XAWS.DynamoDB.DocumentClient();
+const XAWS = AWSXRay.captureAWS(AWS)
+const docClient = new XAWS.DynamoDB.DocumentClient();
 
 //Update Review in database
 export async function updateReviewInDatabase(updatedReview: UpdateReviewRequest, reviewId: String, userId: String) {

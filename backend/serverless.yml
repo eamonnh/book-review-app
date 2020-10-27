@@ -6,6 +6,7 @@ plugins:
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
   - serverless-iam-roles-per-function
+  - serverless-plugin-tracing
 
 provider:
   name: aws
@@ -13,6 +14,10 @@ provider:
 
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-west-1'}
+
+  tracing:
+    lambda: true
+    apiGateway: true
 
   environment:
     REVIEWS_TABLE: Reviews-${self:provider.stage}
