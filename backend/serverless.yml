@@ -114,6 +114,7 @@ functions:
       - http:
           method: post
           path: reviews/{reviewId}/attachment
+          cors: true
           authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
