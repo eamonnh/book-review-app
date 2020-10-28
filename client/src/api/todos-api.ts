@@ -85,6 +85,18 @@ export async function deleteTodo(
   })
 }
 
+export async function deleteReview(
+  idToken: string,
+  reviewId: string
+): Promise<void> {
+  await Axios.delete(`${apiEndpoint}/reviews/${reviewId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+}
+
 export async function getUploadUrl(
   idToken: string,
   todoId: string

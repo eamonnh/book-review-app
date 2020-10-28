@@ -15,7 +15,7 @@ import {
   Loader
 } from 'semantic-ui-react'
 
-import { createReview, deleteTodo, getReviews, patchTodo } from '../api/todos-api'
+import { createReview, deleteTodo, deleteReview, getReviews, patchTodo } from '../api/todos-api'
 import Auth from '../auth/Auth'
 import { Review } from '../types/Review'
 
@@ -68,12 +68,12 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
 
   onReviewDelete = async (reviewId: string) => {
     try {
-      //await deleteReview(this.props.auth.getIdToken(), reviewId)
-      //this.setState({
-      //  reviews: this.state.reviews.filter(review => review.reviewId != reviewId)
-      //})
+      await deleteReview(this.props.auth.getIdToken(), reviewId)
+      this.setState({
+        reviews: this.state.reviews.filter(review => review.reviewId != reviewId)
+      })
     } catch {
-      alert('Todo deletion failed')
+      alert('Review deletion failed')
     }
   }
 
