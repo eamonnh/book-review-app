@@ -101,6 +101,7 @@ functions:
       - http:
           method: delete
           path: reviews/{reviewId}
+          cors: true
           authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
