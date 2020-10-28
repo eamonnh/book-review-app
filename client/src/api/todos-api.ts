@@ -1,9 +1,25 @@
 import { apiEndpoint } from '../config'
+import { CreateReviewRequest } from '../types/CreateReviewRequest';
+import Axios from 'axios'
 import { Todo } from '../types/Todo';
 import { CreateTodoRequest } from '../types/CreateTodoRequest';
-import Axios from 'axios'
 import { UpdateTodoRequest } from '../types/UpdateTodoRequest';
+import { Review } from '../types/Review';
 
+export async function getReviews(idToken: string): Promise<Review[]> {
+  console.log('Fetching reviews')
+
+  const response = await Axios.get(`${apiEndpoint}/reviews`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+  })
+  console.log('Reviews:', response.data)
+  return response.data.Items
+}
+
+//Remember to remove
 export async function getTodos(idToken: string): Promise<Todo[]> {
   console.log('Fetching todos')
 
@@ -17,6 +33,20 @@ export async function getTodos(idToken: string): Promise<Todo[]> {
   return response.data.items
 }
 
+export async function createReview(
+  idToken: string,
+  newReview: CreateReviewRequest
+): Promise<Review> {
+  const response = await Axios.post(`${apiEndpoint}/reviews`,  JSON.stringify(newReview), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+  return response.data.item
+}
+
+//Remember to remove
 export async function createTodo(
   idToken: string,
   newTodo: CreateTodoRequest
