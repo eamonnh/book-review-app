@@ -99,9 +99,9 @@ export async function deleteReview(
 
 export async function getUploadUrl(
   idToken: string,
-  todoId: string
+  reviewId: string
 ): Promise<string> {
-  const response = await Axios.post(`${apiEndpoint}/todos/${todoId}/attachment`, '', {
+  const response = await Axios.post(`${apiEndpoint}/reviews/${reviewId}/attachment`, '', {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
