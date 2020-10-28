@@ -52,6 +52,7 @@ functions:
       - http:
           method: get
           path: reviews
+          cors: true
           authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
@@ -65,12 +66,12 @@ functions:
           method: post
           path: reviews
           authorizer: Auth
-          reqValidatorName: RequestBodyValidator
-          documentation:
-            summary: Create new review
-            description: Create new review item
-            requestModels:
-              'application/json': CreateReviewRequest
+          #reqValidatorName: RequestBodyValidator
+          #documentation:
+          #  summary: Create new review
+          #  description: Create new review item
+          #  requestModels:
+          #    'application/json': CreateReviewRequest
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:PutItem
@@ -120,6 +121,16 @@ functions:
 
 resources:
   Resources:
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST,PUT,DELETE,PATCH'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
     
     TodosTable:
       Type: AWS::DynamoDB::Table
