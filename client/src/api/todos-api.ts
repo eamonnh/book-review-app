@@ -1,5 +1,6 @@
 import { apiEndpoint } from '../config'
 import { CreateReviewRequest } from '../types/CreateReviewRequest';
+import { UpdateReviewRequest } from '../types/UpdateReviewRequest';
 import Axios from 'axios'
 import { Todo } from '../types/Todo';
 import { CreateTodoRequest } from '../types/CreateTodoRequest';
@@ -66,6 +67,19 @@ export async function patchTodo(
   updatedTodo: UpdateTodoRequest
 ): Promise<void> {
   await Axios.patch(`${apiEndpoint}/todos/${todoId}`, JSON.stringify(updatedTodo), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+}
+
+export async function patchReview(
+  idToken: string,
+  reviewId: string,
+  updatedReview: UpdateReviewRequest
+): Promise<void> {
+  await Axios.patch(`${apiEndpoint}/reviews/${reviewId}`, JSON.stringify(updatedReview), {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`

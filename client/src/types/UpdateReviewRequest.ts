@@ -1,5 +1,4 @@
-export interface CreateReviewRequest {
-  createdAt: string
+export interface UpdateReviewRequest {
   title: string
   reviewedAt: string
   score: string
