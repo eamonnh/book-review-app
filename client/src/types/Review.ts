@@ -5,7 +5,7 @@ export interface Review {
     ISBN: string
     notes: string
     reviewedAt: string
-    score: string
+    score: number
     summary: string
     title: string
     attachmentUrl?: string  

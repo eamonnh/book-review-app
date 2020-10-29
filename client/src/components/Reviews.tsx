@@ -12,8 +12,7 @@ import {
   Icon,
   Input,
   Image,
-  Loader,
-  Segment
+  Loader
 } from 'semantic-ui-react'
 
 import { createReview, deleteTodo, deleteReview, getReviews, patchTodo, patchReview } from '../api/todos-api'
@@ -28,9 +27,10 @@ interface ReviewsProps {
 interface ReviewsState {
   reviews: Review[]
   newReviewName: string
+  newReviewReviewedAt: string
   newReviewSummary: string
   newReviewISBN: string
-  newReviewScore: string
+  newReviewScore: number
   newReviewNotes: string
   loadingReviews: boolean
 }
@@ -39,15 +39,20 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
   state: ReviewsState = {
     reviews: [],
     newReviewName: '',
+    newReviewReviewedAt: '',
     newReviewSummary: '',
     newReviewISBN: '',
-    newReviewScore: '',
+    newReviewScore: 0,
     newReviewNotes: '',
     loadingReviews: true
   }
 
   handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ newReviewName: event.target.value })
+  }
+
+  handleReviewedAtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ newReviewReviewedAt: event.target.value })
   }
 
   handleSummaryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +64,7 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
   }
 
   handleScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewScore: event.target.value })
+    this.setState({ newReviewScore: Number(event.target.value) })
   }
 
   handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,13 +75,17 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
     this.props.history.push(`/todos/${reviewId}/edit`)
   }
 
+  onReviewNew = () => {
+    this.props.history.push(`/reviews/create`)
+  }
+
   onReviewCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
       const createdAt = this.calculateDueDate()
       const newReview = await createReview(this.props.auth.getIdToken(), {
         createdAt: createdAt,
         title: this.state.newReviewName,
-        reviewedAt: createdAt,
+        reviewedAt: this.state.newReviewReviewedAt,
         score: this.state.newReviewScore,
         summary: this.state.newReviewSummary,
         notes: this.state.newReviewNotes,
@@ -85,8 +94,9 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
       this.setState({
         reviews: [...this.state.reviews, newReview],
         newReviewName: '',
+        newReviewReviewedAt: '',
         newReviewSummary: '',
-        newReviewScore: '',
+        newReviewScore: 0,
         newReviewNotes: '',
         newReviewISBN: ''
       })
@@ -143,9 +153,25 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
   render() {
     return (
       <div>
-        <Header as="h1">Books I Have Read</Header>
+        
         <div>
-          <h2>Eamonn Hegarty</h2>
+          <Grid>
+            <Grid.Column floated='left' width={6}>
+              <Header as="h1">Books I Have Read</Header>
+              <h2>Eamonn Hegarty</h2>
+            </Grid.Column>
+            <Grid.Column floated='right' width={6} textAlign="right">
+              <Button
+                icon
+                color="blue"
+                labelPosition="left"
+                onClick={() => this.onReviewNew()}
+                >
+                Create New Review
+                <Icon name="file outline" />
+              </Button>                  
+            </Grid.Column>
+          </Grid>
           <p>Tiny summary but detailed notes for each. Use the ISBN number to find it from your local library or anywhere else. This page will constantly update as I read more, so bookmark it if you want to check back in a few months.</p>
         </div>
 
@@ -168,6 +194,7 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
             fluid
             actionPosition="left"
             placeholder="Title of book..."
+            label="Review Title"
             onChange={this.handleNameChange}
             action={{
               color: 'blue',
@@ -176,6 +203,14 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
               content: 'New Review',
               onClick: this.onReviewCreate
             }}
+          />
+        </Grid.Column>
+        <Grid.Column width={16}>
+          <Input
+            type="date"
+            actionPosition="left"
+            placeholder="Date book reviewed..."
+            onChange={this.handleReviewedAtChange}
           />
         </Grid.Column>
         <Grid.Column width={16}>
@@ -196,11 +231,23 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
         </Grid.Column>
         <Grid.Column width={16}>
           <Input
-            fluid
-            actionPosition="left"
-            placeholder="Score out of 10..."
+            list="scores"
+            placeholder="Choose score"
             onChange={this.handleScoreChange}
           />
+            <datalist id='scores'>
+            <option value='0'>0</option>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+            <option value='9'>9</option>
+            <option value='10'>10</option>
+          </datalist>
         </Grid.Column>
         <Grid.Column width={16}>
           <Input
