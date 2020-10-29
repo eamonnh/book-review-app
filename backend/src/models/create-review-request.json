@@ -22,16 +22,11 @@
       "minLength": 50,
       "maxLength": 500
     },
-    "notes": {
-      "type": "string",
-      "minLength": 500,
-      "maxLength": 15000
-    },
     "ISBN": {
       "type": "string",
       "minLength": 8,
       "maxLength": 13
     }
   },
-  "required": ["title", "reviewedAt", "score", "summary", "notes", "ISBN"]
+  "required": ["title", "reviewedAt", "score", "summary", "ISBN"]
 }

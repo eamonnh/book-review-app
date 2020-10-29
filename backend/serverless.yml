@@ -66,12 +66,12 @@ functions:
           method: post
           path: reviews
           authorizer: Auth
-          #reqValidatorName: RequestBodyValidator
-          #documentation:
-          #  summary: Create new review
-          #  description: Create new review item
-          #  requestModels:
-          #    'application/json': CreateReviewRequest
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create new review
+            description: Create new review item
+            requestModels:
+              'application/json': CreateReviewRequest
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:PutItem
@@ -83,13 +83,14 @@ functions:
       - http:
           method: patch
           path: reviews/{reviewId}
+          cors: true
           authorizer: Auth
-          reqValidatorName: RequestBodyValidator
-          documentation:
-            summary: Update review
-            description: Update review item
-            requestModels:
-              'application/json': UpdateReviewRequest
+          #reqValidatorName: RequestBodyValidator
+          #documentation:
+          #  summary: Update review
+          #  description: Update review item
+          #  requestModels:
+          #    'application/json': UpdateReviewRequest
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:UpdateItem
