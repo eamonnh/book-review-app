@@ -47,63 +47,12 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
     loadingReviews: true
   }
 
-  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewName: event.target.value })
-  }
-
-  handleReviewedAtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewReviewedAt: event.target.value })
-  }
-
-  handleSummaryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewSummary: event.target.value })
-  }
-
-  handleISBNChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewISBN: event.target.value })
-  }
-
-  handleScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewScore: Number(event.target.value) })
-  }
-
-  handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewNotes: event.target.value })
-  }
-
   onEditButtonClick = (reviewId: string) => {
     this.props.history.push(`/todos/${reviewId}/edit`)
   }
 
   onReviewNew = () => {
     this.props.history.push(`/reviews/create`)
-  }
-
-  onReviewCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
-    try {
-      const createdAt = this.calculateDueDate()
-      const newReview = await createReview(this.props.auth.getIdToken(), {
-        createdAt: createdAt,
-        title: this.state.newReviewName,
-        reviewedAt: this.state.newReviewReviewedAt,
-        score: this.state.newReviewScore,
-        summary: this.state.newReviewSummary,
-        notes: this.state.newReviewNotes,
-        ISBN: this.state.newReviewISBN
-      })
-      this.setState({
-        reviews: [...this.state.reviews, newReview],
-        newReviewName: '',
-        newReviewReviewedAt: '',
-        newReviewSummary: '',
-        newReviewScore: 0,
-        newReviewNotes: '',
-        newReviewISBN: ''
-      })
-      alert('Review creation successful')
-    } catch {
-      alert('Review creation failed')
-    }
   }
 
   onReviewDelete = async (reviewId: string) => {
@@ -175,92 +124,9 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
           <p>Tiny summary but detailed notes for each. Use the ISBN number to find it from your local library or anywhere else. This page will constantly update as I read more, so bookmark it if you want to check back in a few months.</p>
         </div>
 
-        {this.renderBookReviewList()}
-
-        {this.renderCreateReviewInput()}
+        {this.renderReviews()}
 
       </div>
-    )
-  }
-
-  renderCreateReviewInput() {
-    return (
-      <Grid.Row>
-        <Grid.Column width={16} textAlign="center">
-          <h2>Create New Book Review</h2>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Title of book..."
-            label="Review Title"
-            onChange={this.handleNameChange}
-            action={{
-              color: 'blue',
-              labelPosition: 'right',
-              icon: 'add',
-              content: 'New Review',
-              onClick: this.onReviewCreate
-            }}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            type="date"
-            actionPosition="left"
-            placeholder="Date book reviewed..."
-            onChange={this.handleReviewedAtChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Summary of book review..."
-            onChange={this.handleSummaryChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="ISBN..."
-            onChange={this.handleISBNChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            list="scores"
-            placeholder="Choose score"
-            onChange={this.handleScoreChange}
-          />
-            <datalist id='scores'>
-            <option value='0'>0</option>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-            <option value='9'>9</option>
-            <option value='10'>10</option>
-          </datalist>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Book review notes..."
-            onChange={this.handleNotesChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Divider />
-        </Grid.Column>
-      </Grid.Row>
     )
   }
 
@@ -269,7 +135,7 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
       return this.renderLoading()
     }
 
-    return this.renderReviewsList()
+    return this.renderBookReviewList()
   }
 
   renderLoading() {
@@ -324,53 +190,11 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
                 </Button>                  
               </Grid.Column>
               <Grid.Column width={16}>
-                <Divider />
+                <Header as="h3">
+                  Notes
+                </Header>
+                <p>{review.notes}</p>
               </Grid.Column>
-            </Grid.Row>
-          )
-        })}
-      </Grid>
-    )
-  }
-
-  renderReviewsList() {
-    return (
-      <Grid padded>
-        {this.state.reviews.map((review, pos) => {
-          return (
-            <Grid.Row key={review.reviewId}>
-              <Grid.Column width={1} verticalAlign="middle">
-                <Checkbox
-                  onChange={() => this.onReviewCheck(pos)}
-                />
-              </Grid.Column>
-              <Grid.Column width={10} verticalAlign="middle">
-                {review.title}
-              </Grid.Column>
-              <Grid.Column width={3} floated="right">
-                {review.summary}
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="blue"
-                  onClick={() => this.onEditButtonClick(review.reviewId)}
-                >
-                  <Icon name="pencil" />
-                </Button>
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="red"
-                  onClick={() => this.onReviewDelete(review.reviewId)}
-                >
-                  <Icon name="delete" />
-                </Button>
-              </Grid.Column>
-              {review.title && (
-                <Image src={review.attachmentUrl} size="small" wrapped />
-              )}
               <Grid.Column width={16}>
                 <Divider />
               </Grid.Column>
@@ -379,12 +203,5 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
         })}
       </Grid>
     )
-  }
-
-  calculateDueDate(): string {
-    const date = new Date()
-    date.setDate(date.getDate() + 7)
-
-    return dateFormat(date, 'yyyy-mm-dd') as string
   }
 }

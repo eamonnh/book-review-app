@@ -1,15 +1,18 @@
 import dateFormat from 'dateformat'
 import { History } from 'history'
-import update from 'immutability-helper'
 import * as React from 'react'
 
 import {
   Divider,
-  Grid,
   Header,
-  Input
+  Input,
+  Container,
+  Message,
+  Segment,
+  Form,
+  Button,
+  Icon
 } from 'semantic-ui-react'
-
 import { createReview } from '../api/todos-api'
 import Auth from '../auth/Auth'
 
@@ -45,7 +48,7 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
     this.setState({ newReviewReviewedAt: event.target.value })
   }
 
-  handleSummaryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleSummaryChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ newReviewSummary: event.target.value })
   }
 
@@ -58,8 +61,12 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
   }
 
   handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newReviewNotes: event.target.value })
+    this.setState({ newReviewNotes: event.target.value }) 
   }
+
+  handleNotes2Change = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ newReviewNotes: event.target.value })
+}  
 
   getTodaysDate(): string {
     
@@ -67,9 +74,8 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
     date.setDate(date.getDate())
     return dateFormat(date.getDate(), 'yyyy-mm-dd') as string
   }
-
   
-  onReviewCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
+  onReviewCreate = async () => {
     try {
       const createdAt = this.getTodaysDate()
       const newReview = await createReview(this.props.auth.getIdToken(), {
@@ -90,100 +96,120 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
         newReviewISBN: ''
       })
       alert('Review creation successful')
-    } catch {
-      alert('Review creation failed')
+      this.props.history.push(`/`)
+    } catch (e) {
+      alert(`Failed to create review: ${e.message}`)
     }
   }
 
   render() {
     return (
       <div>
-        <Header as="h1">Create New Book Review</Header>
-        
-        {this.renderCreateNewReviewInput()}
+
+        {this.renderNewReviewFields()}
 
       </div>
     )
   }
 
-  renderCreateNewReviewInput() {
-    return (
-      <Grid.Row>
-        <Grid.Column width={16} textAlign="center">
-          <h2>Create New Book Review</h2>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Title of book..."
-            label="Review Title"
-            onChange={this.handleNameChange}
-            action={{
-              color: 'blue',
-              labelPosition: 'right',
-              icon: 'add',
-              content: 'New Review',
-              onClick: this.onReviewCreate
-            }}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            type="date"
-            actionPosition="left"
-            placeholder="Date book reviewed..."
-            onChange={this.handleReviewedAtChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Summary of book review..."
-            onChange={this.handleSummaryChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="ISBN..."
-            onChange={this.handleISBNChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            list="scores"
-            placeholder="Choose score"
-            onChange={this.handleScoreChange}
-          />
+  renderNewReviewFields() {
+    return (      
+      <Container>
+        <Segment>
+          <div>
+            <h2>Create New Book Review</h2>
+            <p>
+              Please enter the details of the new book review in the form below.<br></br>
+              Fields marked with * are mandatory.
+            </p>
+          </div>
+        </Segment>
+        <Segment.Group>
+          <Segment>
+            <Header as="h4">
+              Title*
+            </Header>
+            <Input
+              fluid
+              maxLength="300"
+              type="text"
+              //label="Book Title and Author*"
+              placeholder="Enter between 10 and 300 characters..."
+              onChange={this.handleNameChange}
+            />
+          </Segment>
+          <Segment>
+            <Header as="h4">
+              Date Reviewed*
+            </Header>
+            <Input
+              type="date"
+              //label="Date Book Reviewed*"
+              placeholder="Select date..."
+              onChange={this.handleReviewedAtChange}
+            />
+          </Segment>
+          <Segment as={Form}>
+            <Header as="h4">
+              Summary*
+            </Header>
+            <textarea onChange={this.handleSummaryChange} />
+          </Segment>
+          <Segment>
+            <Header as="h4">
+              ISBN*
+            </Header>
+            <Input
+              type="Text"
+              maxLength="13"
+              //label="Book ISBN Number*"
+              placeholder="Enter between 8 and 13 characters..."
+              onChange={this.handleISBNChange}
+            />
+          </Segment>
+          <Segment>
+            <Header as="h4">
+              Score*
+            </Header>
+            <Input
+              list="scores"
+              type="number"
+              placeholder="score (0 to 10)"
+              onChange={this.handleScoreChange}
+            />
             <datalist id='scores'>
-            <option value='0'>0</option>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-            <option value='9'>9</option>
-            <option value='10'>10</option>
-          </datalist>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Book review notes..."
-            onChange={this.handleNotesChange}
-          />
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Divider />
-        </Grid.Column>
-      </Grid.Row>
+              <option value='0'>0</option>
+              <option value='1'>1</option>
+              <option value='2'>2</option>
+              <option value='3'>3</option>
+              <option value='4'>4</option>
+              <option value='5'>5</option>
+              <option value='6'>6</option>
+              <option value='7'>7</option>
+              <option value='8'>8</option>
+              <option value='9'>9</option>
+              <option value='10'>10</option>
+            </datalist>
+          </Segment>
+          <Segment as={Form}>
+            <Header as="h4">
+              Notes
+            </Header>
+            <textarea onChange={this.handleNotes2Change} />
+          </Segment>
+          <Segment>
+            <Button
+              icon
+              color="blue"
+              labelPosition="left"
+              onClick={() => this.onReviewCreate()}
+              >
+              Create New Review
+              <Icon name="edit outline" />
+            </Button>                  
+          </Segment>
+        </Segment.Group>
+      </Container>
     )
   }
 }
