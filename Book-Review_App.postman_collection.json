@@ -1,0 +1,255 @@
+{
+	"info": {
+		"_postman_id": "6c766a92-48b1-4099-acca-c6fa693a123e",
+		"name": "Book-Review_App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/reviews",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"eu-west-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Sapiens - by Yuval Noah Harari. Version 10\",\n     \"reviewedAt\": \"2017-08-15\",\n    \"score\": 10,\n    \"summary\": \"I resisted reading this popular history of mankind, because it came out when I had just finished “Guns, Germs, and Steel” and “Cows, Pigs, Wars, and Witches”, on the same subject. But wow - this book is at its best when the author is sharing his personal perspective about binding myths, humanism, and other ways that “truths” are not true. And you get an interesting history of the world along with it. Strange mix of history and philosophy.\",\n    \"notes\": \"Animals are said to belong to the same species if they tend to mate with each other, giving birth to fertile offspring. Why our ancestors wiped out the Neanderthals: They were too familiar to ignore, but too different to tolerate. Large numbers of strangers can cooperate successfully by believing in common myths. There are no nations, no money, no human rights, no laws, and no justice outside the common imagination of human beings. Lawyers call this a ‘legal fiction’. Under the right circumstances myths can change rapidly. In 1789 the French population switched almost overnight from believing in the myth of the divine right of kings to believing in the myth of the sovereignty of the people. One on one, even ten on ten, we are embarrassingly similar to chimpanzees. Significant differences begin to appear only when we cross the threshold of 150 individuals, and when we reach 1,000–2,000 individuals, the differences are astounding. Debates about Homo sapiens’ ‘natural way of life’ miss the main point. Ever since the Cognitive Revolution, there hasn’t been a single natural way of life for Sapiens. Wheat, rice and potatoes: These plants domesticated Homo sapiens, rather than vice versa. Why didn’t humans abandon farming when the plan backfired? Partly because it took generations for the small changes to accumulate and transform society and, by then, nobody remembered that they had ever lived differently. Luxuries tend to become necessities and to spawn new obligations. Today the world contains about a billion sheep, a billion pigs, more than a billion cattle, and more than 25 billion chickens. Domesticated cattle, pigs and sheep are the second, third and fourth most widespread large mammals in the world. Domesticated chickens and cattle may well be an evolutionary success story, but they are also among the most miserable creatures that ever lived. This discrepancy between evolutionary success and individual suffering is perhaps the most important lesson we can draw from the Agricultural Revolution. A dramatic increase in the collective power and ostensible success of our species went hand in hand with much individual suffering.\",\n    \"ISBN\": \"0062316095\"\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/reviews",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"eu-west-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update review",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Eamonn Hegarty Xray Beta Updated\",\n    \"reviewedAt\": \"2020-11-03\",\n    \"score\": 3,\n    \"summary\": \"The test summary 3 has been updated. The test summary 3 has been updated. The test summary 3 has been updated. The test summary 3 has been updated.\",\n    \"notes\": \"Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated. Test summary 3 has been updated, test summary has been updated, test summary has been updated, test summary has been updated.\",\n    \"ISBN\": \"987654321\"\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/reviews/34dd0e0a-a85e-4a29-b3a6-30df43377769",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"eu-west-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"reviews",
+								"34dd0e0a-a85e-4a29-b3a6-30df43377769"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete review",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/reviews/01687069-24e7-4037-b8a3-6478ff1afdd0",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"eu-west-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"reviews",
+								"01687069-24e7-4037-b8a3-6478ff1afdd0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get attachment URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/reviews/2e589346-6c1d-4a7e-bedb-f719b5ac651b/attachment",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"eu-west-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"reviews",
+								"2e589346-6c1d-4a7e-bedb-f719b5ac651b",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "87d8ef96-2a08-4a90-b079-d95c93907451",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "60889893-74de-4ecc-8342-76d54560272e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c02c6490-bb90-4b80-87cc-af8baf9c96cc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c5153236-8e3c-4759-90fc-360a645ecd57",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "6ccbea38-2ae9-4901-b1be-9c341b7abf88",
+			"key": "apiId",
+			"value": ""
+		},
+		{
+			"id": "99b15791-36d0-438f-a338-2ec32029b01f",
+			"key": "authToken",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
