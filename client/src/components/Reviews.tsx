@@ -5,17 +5,15 @@ import * as React from 'react'
 
 import {
   Button,
-  Checkbox,
   Divider,
   Grid,
   Header,
   Icon,
-  Input,
   Image,
   Loader
 } from 'semantic-ui-react'
 
-import { createReview, deleteTodo, deleteReview, getReviews, patchTodo, patchReview } from '../api/todos-api'
+import {  deleteReview, getReviews } from '../api/reviews-api'
 import Auth from '../auth/Auth'
 import { Review } from '../types/Review'
 
@@ -61,27 +59,6 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
       this.setState({
         reviews: this.state.reviews.filter(review => review.reviewId != reviewId)
       })
-    } catch {
-      alert('Review deletion failed')
-    }
-  }
-
-  onReviewCheck = async (pos: number) => {
-    try {
-      const review = this.state.reviews[pos]
-      await patchReview(this.props.auth.getIdToken(), review.reviewId, {
-        title: review.title,
-        reviewedAt: review.reviewedAt,
-        score: review.score,
-        summary: review.summary,
-        notes: review.notes,
-        ISBN: review.ISBN
-      })
-      //this.setState({
-      //  reviews: update(this.state.reviews, {
-      //    [pos]: { done: { $set: !review.done } }
-      //  })
-      //})
     } catch {
       alert('Review deletion failed')
     }
@@ -187,13 +164,7 @@ export class Reviews extends React.PureComponent<ReviewsProps, ReviewsState> {
                 >
                   Delete Review
                   <Icon name="delete" />
-                </Button>                  
-              </Grid.Column>
-              <Grid.Column width={16}>
-                <Header as="h3">
-                  Notes
-                </Header>
-                <p>{review.notes}</p>
+                </Button>
               </Grid.Column>
               <Grid.Column width={16}>
                 <Divider />

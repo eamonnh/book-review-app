@@ -13,7 +13,7 @@ import {
   Button,
   Icon
 } from 'semantic-ui-react'
-import { createReview } from '../api/todos-api'
+import { createReview } from '../api/reviews-api'
 import Auth from '../auth/Auth'
 
 interface CreateReviewProps {
@@ -131,6 +131,7 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
             </Header>
             <Input
               fluid
+              minLength="10"
               maxLength="300"
               type="text"
               //label="Book Title and Author*"
@@ -153,7 +154,11 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
             <Header as="h4">
               Summary*
             </Header>
-            <textarea onChange={this.handleSummaryChange} />
+            <textarea 
+              onChange={this.handleSummaryChange}  
+              rows={1}
+              cols={5} 
+            />
           </Segment>
           <Segment>
             <Header as="h4">
@@ -161,6 +166,7 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
             </Header>
             <Input
               type="Text"
+              minLength="8"
               maxLength="13"
               //label="Book ISBN Number*"
               placeholder="Enter between 8 and 13 characters..."
@@ -195,7 +201,11 @@ export class CreateReview extends React.PureComponent<CreateReviewProps, CreateR
             <Header as="h4">
               Notes
             </Header>
-            <textarea onChange={this.handleNotes2Change} />
+            <textarea 
+              onChange={this.handleNotes2Change} 
+              rows={2}
+              cols={5} 
+            />
           </Segment>
           <Segment>
             <Button

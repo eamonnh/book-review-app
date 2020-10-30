@@ -2,9 +2,6 @@ import { apiEndpoint } from '../config'
 import { CreateReviewRequest } from '../types/CreateReviewRequest';
 import { UpdateReviewRequest } from '../types/UpdateReviewRequest';
 import Axios from 'axios'
-import { Todo } from '../types/Todo';
-import { CreateTodoRequest } from '../types/CreateTodoRequest';
-import { UpdateTodoRequest } from '../types/UpdateTodoRequest';
 import { Review } from '../types/Review';
 
 export async function getReviews(idToken: string): Promise<Review[]> {
@@ -20,20 +17,6 @@ export async function getReviews(idToken: string): Promise<Review[]> {
   return response.data.Items
 }
 
-//Remember to remove
-export async function getTodos(idToken: string): Promise<Todo[]> {
-  console.log('Fetching todos')
-
-  const response = await Axios.get(`${apiEndpoint}/todos`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
-    },
-  })
-  console.log('Todos:', response.data)
-  return response.data.items
-}
-
 export async function createReview(
   idToken: string,
   newReview: CreateReviewRequest
@@ -47,51 +30,12 @@ export async function createReview(
   return response.data.item
 }
 
-//Remember to remove
-export async function createTodo(
-  idToken: string,
-  newTodo: CreateTodoRequest
-): Promise<Todo> {
-  const response = await Axios.post(`${apiEndpoint}/todos`,  JSON.stringify(newTodo), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
-    }
-  })
-  return response.data.item
-}
-
-export async function patchTodo(
-  idToken: string,
-  todoId: string,
-  updatedTodo: UpdateTodoRequest
-): Promise<void> {
-  await Axios.patch(`${apiEndpoint}/todos/${todoId}`, JSON.stringify(updatedTodo), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
-    }
-  })
-}
-
 export async function patchReview(
   idToken: string,
   reviewId: string,
   updatedReview: UpdateReviewRequest
 ): Promise<void> {
   await Axios.patch(`${apiEndpoint}/reviews/${reviewId}`, JSON.stringify(updatedReview), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
-    }
-  })
-}
-
-export async function deleteTodo(
-  idToken: string,
-  todoId: string
-): Promise<void> {
-  await Axios.delete(`${apiEndpoint}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
