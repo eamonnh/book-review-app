@@ -5,7 +5,7 @@ It takes the format of a blog.
 The target audience is individuals looking for an easy way to store their book review notes.
 This project is part of the capstone project for my Udacity Cloud Developer Nanodegree.
 
-![alt text](https://github.com/eamonnh/book-review-app/blob/master/images/HomePage.png?raw=true)
+https://github.com/eamonnh/book-review-app/blob/master/images/HomePage.PNG
 
 # Major Features
 
