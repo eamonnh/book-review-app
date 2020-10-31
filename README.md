@@ -1,5 +1,7 @@
 # Book Review Application
 
+## Description
+
 This application allows users to store the book review notes of books they have read.
 It takes the format of a blog.
 The target audience is individuals looking for an easy way to store their book review notes.
@@ -131,10 +133,11 @@ Open command prompt and ensure you are in the `book-review-app` root folder.
 
 To install the backend project that includes the Serverless installation of the APIs, database and S3, run the following commands:
 
-`powershell
-`cd backend`
-`npm install`
-`serverless deploy -v`
+```powershell
+cd backend
+npm install
+serverless deploy -v
+```
 
 ## Client
 
