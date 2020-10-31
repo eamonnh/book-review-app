@@ -140,9 +140,9 @@ To install the backend project that includes the Serverless installation of the 
 
 To install and run the client on your local machine, run the following commands:
 
-`powershell
-`cd client`
-`npm install`
-`npm run start`
-
+```powershell
+cd client
+npm install
+npm run start
+```
 Open your browser and navigate to `http://localhost:3000`
