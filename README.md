@@ -127,8 +127,11 @@ See `client\src\config.ts` for more details.
 
 ## Backend
 
+Open command prompt and ensure you are in the `book-review-app` root folder.
+
 To install the backend project that includes the Serverless installation of the APIs, database and S3, run the following commands:
 
+`powershell
 `cd backend`
 `npm install`
 `serverless deploy -v`
@@ -137,6 +140,7 @@ To install the backend project that includes the Serverless installation of the 
 
 To install and run the client on your local machine, run the following commands:
 
+`powershell
 `cd client`
 `npm install`
 `npm run start`
